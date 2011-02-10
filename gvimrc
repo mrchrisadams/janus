@@ -22,7 +22,7 @@ endif
 set guioptions-=T
 
 " Default gui color scheme
-color molokai
+color topfunky-light
 
 " ConqueTerm wrapper
 function StartTerm()
@@ -31,7 +31,7 @@ function StartTerm()
 endfunction
 
 " Project Tree
-autocmd VimEnter * NERDTree
+"autocmd VimEnter * NERDTree
 autocmd VimEnter * wincmd p
 autocmd VimEnter * call s:CdIfDirectory(expand("<amatch>"))
 
