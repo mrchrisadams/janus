@@ -4,10 +4,14 @@ set number
 set ruler
 syntax on
 
+" Set encoding
+set encoding=utf-8
+
 " Whitespace stuff
 set nowrap
 set tabstop=2
 set shiftwidth=2
+set softtabstop=2
 set expandtab
 set list listchars=tab:\ \ ,trail:·
 
@@ -24,6 +28,11 @@ set wildignore+=*.o,*.obj,.git,*.rbc
 " Status bar
 set laststatus=2
 
+" Without setting this, ZoomWin restores windows in a way that causes
+" equalalways behavior to be triggered the next time CommandT is used.
+" This is likely a bludgeon to solve some other issue, but it works
+set noequalalways
+
 " NERDTree configuration
 let NERDTreeIgnore=['\.rbc$', '\~$']
 map <Leader>n :NERDTreeToggle<CR>
@@ -32,7 +41,7 @@ map <Leader>n :NERDTreeToggle<CR>
 let g:CommandTMaxHeight=20
 
 " ZoomWin configuration
-map <Leader>z :ZoomWin<CR>
+map <Leader><Leader> :ZoomWin<CR>
 
 " CTags
 map <Leader>rt :!ctags --extra=+f -R *<CR><CR>
@@ -54,17 +63,19 @@ function s:setupMarkup()
   map <buffer> <Leader>p :Mm <CR>
 endfunction
 
-" make and python use real tabs
+" make uses real tabs
 au FileType make                                     set noexpandtab
-au FileType python                                   set noexpandtab
 
-" Thorfile, Rakefile and Gemfile are Ruby
-au BufRead,BufNewFile {Gemfile,Rakefile,Thorfile,config.ru}    set ft=ruby
+" Thorfile, Rakefile, Vagrantfile and Gemfile are Ruby
+au BufRead,BufNewFile {Gemfile,Rakefile,Vagrantfile,Thorfile,config.ru}    set ft=ruby
 
 " md, markdown, and mk are markdown and define buffer-local preview
 au BufRead,BufNewFile *.{md,markdown,mdown,mkd,mkdn} call s:setupMarkup()
 
 au BufRead,BufNewFile *.txt call s:setupWrapping()
+
+" make python follow PEP8 ( http://www.python.org/dev/peps/pep-0008/ )
+au FileType python  set tabstop=4 textwidth=79
 
 " allow backspacing over everything in insert mode
 set backspace=indent,eol,start
@@ -92,12 +103,23 @@ nmap <C-Down> ]e
 vmap <C-Up> [egv
 vmap <C-Down> ]egv
 
+" Enable syntastic syntax checking
+let g:syntastic_enable_signs=1
+let g:syntastic_quiet_warnings=1
+
 " Use modeline overrides
 set modeline
 set modelines=10
 
 " Default color scheme
 color desert
+
+" Directories for swp files
+set backupdir=~/.vim/backup
+set directory=~/.vim/backup
+
+" MacVIM shift+arrow-keys behavior (required in .vimrc)
+let macvim_hig_shift_movement = 1
 
 " Include user's local vim config
 if filereadable(expand("~/.vimrc.local"))

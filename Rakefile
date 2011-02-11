@@ -56,8 +56,9 @@ def vim_plugin_task(name, repo=nil)
           current = lines.shift until current =~ /finish$/ # find finish line
 
           while current = lines.shift
-            # first line is the filename, followed by some unknown data
-            file = current[/^(.+?)\s+\[\[\[(\d+)$/, 1]
+            # first line is the filename (possibly followed by garbage)
+            # some vimballs use win32 style path separators
+            path = current[/^(.+?)(\t\[{3}\d)?$/, 1].gsub '\\', '/'
 
             # then the size of the payload in lines
             current = lines.shift
@@ -68,8 +69,8 @@ def vim_plugin_task(name, repo=nil)
 
             # install the data
             Dir.chdir dir do
-              mkdir_p File.dirname(file)
-              File.open(file, 'w'){ |f| f.write(data) }
+              mkdir_p File.dirname(path)
+              File.open(path, 'w'){ |f| f.write(data) }
             end
           end
         end
@@ -127,9 +128,10 @@ vim_plugin_task "git",              "git://github.com/tpope/vim-git.git"
 vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
 vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
 vim_plugin_task "javascript",       "git://github.com/pangloss/vim-javascript.git"
+vim_plugin_task "jslint",           "git://github.com/hallettj/jslint.vim.git"
 vim_plugin_task "markdown_preview", "git://github.com/robgleeson/vim-markdown-preview.git"
-vim_plugin_task "nerdtree",         "git://github.com/scrooloose/nerdtree.git"
-vim_plugin_task "nerdcommenter",    "git://github.com/scrooloose/nerdcommenter.git"
+vim_plugin_task "nerdtree",         "git://github.com/wycats/nerdtree.git"
+vim_plugin_task "nerdcommenter",    "git://github.com/ddollar/nerdcommenter.git"
 vim_plugin_task "surround",         "git://github.com/tpope/vim-surround.git"
 vim_plugin_task "taglist",          "http://vim.sourceforge.net/scripts/download_script.php?src_id=7701"
 vim_plugin_task "vividchalk",       "git://github.com/tpope/vim-vividchalk.git"
@@ -140,15 +142,19 @@ vim_plugin_task "rails",            "git://github.com/tpope/vim-rails.git"
 vim_plugin_task "rspec",            "git://github.com/taq/vim-rspec.git"
 vim_plugin_task "zoomwin",          "http://www.vim.org/scripts/download_script.php?src_id=9865"
 vim_plugin_task "snipmate",         "git://github.com/msanders/snipmate.vim.git"
-vim_plugin_task "autoclose",        "git://github.com/Townk/vim-autoclose.git"
 vim_plugin_task "markdown",         "git://github.com/tpope/vim-markdown.git"
 vim_plugin_task "align",            "git://github.com/tsaleh/vim-align.git"
 vim_plugin_task "unimpaired",       "git://github.com/tpope/vim-unimpaired.git"
+vim_plugin_task "searchfold",       "git://github.com/vim-scripts/searchfold.vim.git"
+vim_plugin_task "endwise",          "git://github.com/tpope/vim-endwise.git"
+vim_plugin_task "irblack",          "git://github.com/wgibbs/vim-irblack.git"
+vim_plugin_task "vim-coffee-script","git://github.com/kchmck/vim-coffee-script.git"
+vim_plugin_task "syntastic",        "git://github.com/scrooloose/syntastic.git"
 
 vim_plugin_task "command_t",        "git://github.com/wincent/Command-T.git" do
   sh "find ruby -name '.gitignore' | xargs rm"
   Dir.chdir "ruby/command-t" do
-    if `rvm > /dev/null 2>&1` && $?.exitstatus == 1
+    if `rvm > /dev/null 2>&1` && $?.exitstatus == 0
       sh "rvm system ruby extconf.rb"
     else
       sh "/usr/bin/ruby extconf.rb" # assume /usr/bin/ruby is system ruby
@@ -188,14 +194,14 @@ end
 vim_plugin_task "molokai" do
   sh "curl http://www.vim.org/scripts/download_script.php?src_id=9750 > colors/molokai.vim"
 end
-
-vim_plugin_task "mustasche" do
-  sh "curl http://github.com/defunkt/mustache/raw/master/contrib/mustache.vim > syntax/mustache.vim"
+vim_plugin_task "mustache" do
+  sh "curl https://github.com/defunkt/mustache/raw/master/contrib/mustache.vim > syntax/mustache.vim"
+  File.open(File.expand_path('../ftdetect/mustache.vim', __FILE__), 'w') do |file|
+    file << "au BufNewFile,BufRead *.mustache        setf mustache"
+  end
 end
-
-desc "Cleanup all the files"
-task :clean do
-  rm_rf "tmp"
+vim_plugin_task "vwilight" do
+  sh "curl https://gist.github.com/raw/796172/724c7ca237a7f6b8d857c4ac2991cfe5ffb18087/vwilight.vim > colors/vwilight.vim"
 end
 
 desc "Update the documentation"
@@ -214,7 +220,20 @@ task :link_vimrc do
   end
 end
 
+task :clean do
+  system "git clean -dfx"
+end
+
+desc "Pull the latest"
+task :pull do
+  system "git pull"
+end
+
 task :default => [
   :update_docs,
   :link_vimrc
 ]
+
+desc "Clear out all build artifacts and rebuild the latest Janus"
+task :upgrade => [:clean, :pull, :default]
+

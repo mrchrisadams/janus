@@ -18,6 +18,18 @@ that we have given careful thought to the experience of using MacVIM
 with the tools in question. If you run into an issue using it, please
 report an issue to the issue tracker.
 
+## Pre-requisites
+
+Janus is built primarily for [MacVim](http://code.google.com/p/macvim/) on OSX.
+Download it [here](https://github.com/b4winckler/macvim/downloads).
+
+Alternatively, you can use Janus with the bundled console `vim` installation on
+OSX (via Terminal), or with any other `vim` or `gvim` installation.
+
+Linux users can install `gvim` for an experience identical to MacVim.
+On Debian/Ubuntu, simply `apt-get install vim-gnome`. For remote
+servers, install console vim with `apt-get install vim-nox`.
+
 ## Installation
 
 0. `for i in ~/.vim ~/.vimrc ~/.gvimrc; do [ -e $i ] && mv $i $i.old;
@@ -28,7 +40,17 @@ report an issue to the issue tracker.
 
 or
 
-  `curl http://github.com/carlhuda/janus/raw/master/bootstrap.sh -o - | sh`
+  `curl https://github.com/carlhuda/janus/raw/master/bootstrap.sh -o - | sh`
+
+## Customization
+
+Create `~/.vimrc.local` and `~/.gvimrc.local` for any local
+customizations.
+
+For example, to override the default color schemes:
+
+    echo color desert  > ~/.vimrc.local
+    echo color molokai > ~/.gvimrc.local
 
 ## Updating to the latest version
 
@@ -39,10 +61,11 @@ again inside your `~/.vim` directory.
 
 Here's some tips if you've never used VIM before:
 
-## Tutorial
+## Tutorials
 
 * Type `vimtutor` into a shell to go through a brief interactive
   tutorial inside VIM.
+* Read the slides at [VIM: Walking Without Crutches](http://walking-without-crutches.heroku.com/#1).
 
 ## Modes
 
@@ -57,6 +80,7 @@ Here's some tips if you've never used VIM before:
 * Use `:q` to exit vim
 * Certain commands are prefixed with a `<Leader>` key, which maps to `\`
   by default. Use `let mapleader = ","` to change this.
+* Keyboard [cheat sheet](http://walking-without-crutches.heroku.com/image/images/vi-vim-cheat-sheet.png).
 
 # Features
 
@@ -223,7 +247,7 @@ Janus ships with a few additional syntaxes:
 * Sass (bound to \*.sass)
 * SCSS (bound to \*.scss)
 * An improved JavaScript syntax (bound to \*.js)
-* Map Gemfile, Rakefile and Thorfile to Ruby
+* Map Gemfile, Rakefile, Vagrantfile and Thorfile to Ruby
 * Git commits (set your `EDITOR` to `mvim -f`)
 
 ## Color schemes
@@ -247,8 +271,5 @@ Janus also has a few customized versions of popular themes:
 * jellybeans+
 * molokai
 * railscasts+
+* vwilight
 
-To permanently set a color scheme, update your local vimrc files:
-
-    echo color desert > ~/.vimrc.local
-    echo color jellybeans+ > ~/.gvimrc.local
