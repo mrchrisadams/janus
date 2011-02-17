@@ -51,7 +51,7 @@ endif
 set guioptions-=T
 
 " Default gui color scheme
-color topfunky-light
+color vwilight
 " ConqueTerm wrapper
 function StartTerm()
   execute 'ConqueTerm ' . $SHELL . ' --login'
@@ -205,3 +205,5 @@ call s:DefineCommand("mkdir", "Mkdir")
 if filereadable(expand("~/.gvimrc.local"))
   source ~/.gvimrc.local
 endif
+
+
