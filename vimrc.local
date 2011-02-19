@@ -1,0 +1,11 @@
+
+" Add more sane wrapping of words - takes us closes to 
+" default textmate behaviour
+command! -nargs=* Wrap set wrap linebreak nolist
+
+colorscheme ir_black
+
+" Jump to errors before they're caused in a browser, and list them
+ let g:syntastic_auto_jump
+ let g:syntastic_auto_loc_list=1
+
