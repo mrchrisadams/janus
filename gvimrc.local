@@ -3,8 +3,8 @@ set encoding=utf-8                " Use UTF-8 everywhere.
 set guifont=Inconsolata:h15       "add my preferred font
 
 " Jump to errors before they're caused in a browser, and list them
- let g:syntastic_auto_jump
- let g:syntastic_auto_loc_list=1
+ " let g:syntastic_auto_jump
+ " let g:syntastic_auto_loc_list=1
 
 
 " Add more sane wrapping of words - takes us closes to 
