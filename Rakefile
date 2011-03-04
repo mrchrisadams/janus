@@ -151,11 +151,15 @@ vim_plugin_task "irblack",          "git://github.com/wgibbs/vim-irblack.git"
 vim_plugin_task "vim-coffee-script","git://github.com/kchmck/vim-coffee-script.git"
 vim_plugin_task "syntastic",        "git://github.com/scrooloose/syntastic.git"
 vim_plugin_task "puppet",           "git://github.com/ajf/puppet-vim.git"
+vim_plugin_task "scala",            "git://github.com/bdd/vim-scala.git"
+vim_plugin_task "gist-vim",         "git://github.com/mattn/gist-vim.git"
 
 vim_plugin_task "command_t",        "git://github.com/wincent/Command-T.git" do
   sh "find ruby -name '.gitignore' | xargs rm"
   Dir.chdir "ruby/command-t" do
-    if File.exists?("/usr/bin/ruby") # prefer system rubies
+    if File.exists?("/usr/bin/ruby1.8") # prefer 1.8 on *.deb systems
+      sh "/usr/bin/ruby1.8 extconf.rb"
+    elsif File.exists?("/usr/bin/ruby") # prefer system rubies
       sh "/usr/bin/ruby extconf.rb"
     elsif `rvm > /dev/null 2>&1` && $?.exitstatus == 0
       sh "rvm system ruby extconf.rb"
@@ -199,6 +203,11 @@ vim_plugin_task "mustache" do
   sh "curl https://github.com/defunkt/mustache/raw/master/contrib/mustache.vim > syntax/mustache.vim"
   File.open(File.expand_path('../ftdetect/mustache.vim', __FILE__), 'w') do |file|
     file << "au BufNewFile,BufRead *.mustache        setf mustache"
+  end
+end
+vim_plugin_task "arduino","git://github.com/vim-scripts/Arduino-syntax-file.git" do
+  File.open(File.expand_path('../ftdetect/arduino.vim', __FILE__), 'w') do |file|
+    file << "au BufNewFile,BufRead *.pde             setf arduino"
   end
 end
 vim_plugin_task "vwilight" do
