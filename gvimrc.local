@@ -11,4 +11,4 @@ set guifont=Inconsolata:h15       "add my preferred font
 " default textmate behaviour
 command! -nargs=* Wrap set wrap linebreak nolist
 
-
+set relativenumber
