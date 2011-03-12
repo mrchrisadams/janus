@@ -195,6 +195,11 @@ end
 #     VIM
 #   end
 # end
+#
+
+vim_plugin_task "IR_white" do
+  sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > colors/IR_White.vim"
+end
 
 vim_plugin_task "molokai" do
   sh "curl https://github.com/mrtazz/molokai.vim/raw/master/colors/molokai.vim > colors/molokai.vim"
