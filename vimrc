@@ -121,13 +121,13 @@ set modeline
 set modelines=10
 
 " Default color scheme
-color desert
+color IR_White
 
 " Directories for swp files
 set backupdir=~/.vim/backup
 set directory=~/.vim/backup
 
-" Turn off jslint errors by default
+" Turn on jslint errors by default
 let g:JSLintHighlightErrorLine = 1
 
 " MacVIM shift+arrow-keys behavior (required in .vimrc)

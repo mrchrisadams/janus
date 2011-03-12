@@ -65,12 +65,12 @@ endif
 set guioptions-=T
 
 " Default gui color scheme
-color vwilight
+" color molokai
 " ConqueTerm wrapper
-function StartTerm()
-  execute 'ConqueTerm ' . $SHELL . ' --login'
-  setlocal listchars=tab:\ \ 
-endfunction
+" function StartTerm()
+"   execute 'ConqueTerm ' . $SHELL . ' --login'
+"   setlocal listchars=tab:\ \ 
+" endfunction
 
 " Project Tree
 "autocmd VimEnter * NERDTree
