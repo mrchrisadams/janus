@@ -1,5 +1,5 @@
 module VIM
-  Dirs = %w[ after autoload doc plugin ruby snippets syntax ftdetect ftplugin colors indent ]
+  Dirs = %w[ autoload bundle janus_bundle janus_bundle/janus_themes/colors ]
 end
 
 directory "tmp"
@@ -10,6 +10,7 @@ end
 def vim_plugin_task(name, repo=nil)
   cwd = File.expand_path("../", __FILE__)
   dir = File.expand_path("tmp/#{name}")
+  bundle_target = File.expand_path("janus_bundle/#{name}")
   subdirs = VIM::Dirs
 
   namespace(name) do
@@ -85,21 +86,11 @@ def vim_plugin_task(name, repo=nil)
       end
 
       task :install => [:pull] + subdirs do
-        Dir.chdir dir do
-          if File.exists?("Rakefile") and `rake -T` =~ /^rake install/
-            sh "rake install"
-          elsif File.exists?("install.sh")
-            sh "sh install.sh"
-          else
-            subdirs.each do |subdir|
-              if File.exists?(subdir)
-                sh "cp -rf #{subdir}/* #{cwd}/#{subdir}/"
-              end
-            end
-          end
+        sh "cp -rf #{dir} #{bundle_target}"
+        rm_r "#{bundle_target}/.git" if repo =~ /git$/
+        Dir.chdir bundle_target do
+          yield if block_given?
         end
-
-        yield if block_given?
       end
     else
       task :install => subdirs do
@@ -119,30 +110,35 @@ def vim_plugin_task(name, repo=nil)
   end
   task :default => name
 end
+vim_plugin_task "pathogen.vim" do
+  file 'pathogen.vim' => 'autoload' do
+    sh "curl https://github.com/tpope/vim-pathogen/raw/master/autoload/pathogen.vim > autoload/pathogen.vim"
+  end
+end
 
 # vim_plugin_task "ack.vim",          "git://github.com/mileszs/ack.vim.git"
 # vim_plugin_task "color-sampler",    "git://github.com/vim-scripts/Color-Sampler-Pack.git"
 # vim_plugin_task "conque",           "http://conque.googlecode.com/files/conque_1.1.tar.gz"
 # vim_plugin_task "fugitive",         "git://github.com/tpope/vim-fugitive.git"
 # vim_plugin_task "git",              "git://github.com/tpope/vim-git.git"
-# vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
-# vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
-# vim_plugin_task "javascript",       "git://github.com/pangloss/vim-javascript.git"
-# vim_plugin_task "jslint",           "git://github.com/hallettj/jslint.vim.git"
-# vim_plugin_task "markdown_preview", "git://github.com/robgleeson/vim-markdown-preview.git"
+vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
+vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
+vim_plugin_task "javascript",       "git://github.com/pangloss/vim-javascript.git"
+vim_plugin_task "jslint",           "git://github.com/hallettj/jslint.vim.git"
+vim_plugin_task "markdown_preview", "git://github.com/robgleeson/vim-markdown-preview.git"
 vim_plugin_task "nerdtree",         "git://github.com/wycats/nerdtree.git"
 vim_plugin_task "nerdcommenter",    "git://github.com/ddollar/nerdcommenter.git"
 vim_plugin_task "surround",         "git://github.com/tpope/vim-surround.git"
-# vim_plugin_task "taglist",          "git://github.com/vim-scripts/taglist.vim.git"
+vim_plugin_task "taglist",          "git://github.com/vim-scripts/taglist.vim.git"
 # vim_plugin_task "vividchalk",       "git://github.com/tpope/vim-vividchalk.git"
 vim_plugin_task "supertab",         "git://github.com/ervandew/supertab.git"
-# vim_plugin_task "cucumber",         "git://github.com/tpope/vim-cucumber.git"
+vim_plugin_task "cucumber",         "git://github.com/tpope/vim-cucumber.git"
 # vim_plugin_task "textile",          "git://github.com/timcharper/textile.vim.git"
 # vim_plugin_task "rails",            "git://github.com/tpope/vim-rails.git"
 # vim_plugin_task "rspec",            "git://github.com/taq/vim-rspec.git"
 vim_plugin_task "zoomwin",          "git://github.com/vim-scripts/ZoomWin.git"
 vim_plugin_task "snipmate",         "git://github.com/msanders/snipmate.vim.git"
-# vim_plugin_task "markdown",         "git://github.com/tpope/vim-markdown.git"
+vim_plugin_task "markdown",         "git://github.com/tpope/vim-markdown.git"
 # vim_plugin_task "align",            "git://github.com/tsaleh/vim-align.git"
 # vim_plugin_task "unimpaired",       "git://github.com/tpope/vim-unimpaired.git"
 # vim_plugin_task "searchfold",       "git://github.com/vim-scripts/searchfold.vim.git"
@@ -150,74 +146,19 @@ vim_plugin_task "snipmate",         "git://github.com/msanders/snipmate.vim.git"
 # vim_plugin_task "irblack",          "git://github.com/wgibbs/vim-irblack.git"
 # vim_plugin_task "vim-coffee-script","git://github.com/kchmck/vim-coffee-script.git"
 vim_plugin_task "syntastic",        "git://github.com/scrooloose/syntastic.git"
-# vim_plugin_task "puppet",           "git://github.com/ajf/puppet-vim.git"
-# vim_plugin_task "scala",            "git://github.com/bdd/vim-scala.git"
-# vim_plugin_task "gist-vim",         "git://github.com/mattn/gist-vim.git"
-
-# vim_plugin_task "command_t",        "git://github.com/wincent/Command-T.git" do
-#   sh "find ruby -name '.gitignore' | xargs rm"
-#   Dir.chdir "ruby/command-t" do
-#     if File.exists?("/usr/bin/ruby1.8") # prefer 1.8 on *.deb systems
-#       sh "/usr/bin/ruby1.8 extconf.rb"
-#     elsif File.exists?("/usr/bin/ruby") # prefer system rubies
-#       sh "/usr/bin/ruby extconf.rb"
-#     elsif `rvm > /dev/null 2>&1` && $?.exitstatus == 0
-#       sh "rvm system ruby extconf.rb"
-#     end
-#     sh "make clean && make"
-#   end
-# end
-
-# vim_plugin_task "janus_themes" do
-#   # custom version of railscasts theme
-#   File.open(File.expand_path("../colors/railscasts+.vim", __FILE__), "w") do |file|
-#     file.puts <<-VIM.gsub(/^ +/, "").gsub("<SP>", " ")
-#       runtime colors/railscasts.vim
-#       let g:colors_name = "railscasts+"
-
-#       set fillchars=vert:\\<SP>
-#       set fillchars=stl:\\<SP>
-#       set fillchars=stlnc:\\<SP>
-#       hi  StatusLine guibg=#cccccc guifg=#000000
-#       hi  VertSplit  guibg=#dddddd
-#     VIM
-#   end
-
-#   # custom version of jellybeans theme
-#   File.open(File.expand_path("../colors/jellybeans+.vim", __FILE__), "w") do |file|
-#     file.puts <<-VIM.gsub(/^      /, "")
-#       runtime colors/jellybeans.vim
-#       let g:colors_name = "jellybeans+"
-
-#       hi  VertSplit    guibg=#888888
-#       hi  StatusLine   guibg=#cccccc guifg=#000000
-#       hi  StatusLineNC guibg=#888888 guifg=#000000
-#     VIM
-#   end
-# end
-#
+vim_plugin_task "gist-vim",         "git://github.com/mattn/gist-vim.git"
 
 vim_plugin_task "IR_white" do
-  sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > colors/IR_White.vim"
+  sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > janus_bundle/janus_themes/colors/IR_White.vim"
 end
 
 vim_plugin_task "molokai" do
-  sh "curl https://github.com/mrtazz/molokai.vim/raw/master/colors/molokai.vim > colors/molokai.vim"
+  sh "curl http://www.vim.org/scripts/download_script.php?src_id=9750 > janus_bundle/janus_themes/colors/molokai.vim"
 end
-# vim_plugin_task "mustache" do
-#   sh "curl https://github.com/defunkt/mustache/raw/master/contrib/mustache.vim > syntax/mustache.vim"
-#   File.open(File.expand_path('../ftdetect/mustache.vim', __FILE__), 'w') do |file|
-#     file << "au BufNewFile,BufRead *.mustache        setf mustache"
-#   end
-# end
-# vim_plugin_task "arduino","git://github.com/vim-scripts/Arduino-syntax-file.git" do
-#   File.open(File.expand_path('../ftdetect/arduino.vim', __FILE__), 'w') do |file|
-#     file << "au BufNewFile,BufRead *.pde             setf arduino"
-#   end
-# end
-# vim_plugin_task "vwilight" do
-#   sh "curl https://gist.github.com/raw/796172/724c7ca237a7f6b8d857c4ac2991cfe5ffb18087/vwilight.vim > colors/vwilight.vim"
-# end
+vim_plugin_task "mustasche" do
+  FileUtils.mkdir_p "janus_bundle/mustache/syntax"
+  sh "curl http://github.com/defunkt/mustache/raw/master/contrib/mustache.vim > janus_bundle/mustache/syntax/mustache.vim"
+end
 
 desc "Update the documentation"
 task :update_docs do
@@ -245,8 +186,8 @@ task :pull do
 end
 
 task :default => [
-  :update_docs,
-  :link_vimrc
+  :link_vimrc,
+  :update_docs
 ]
 
 desc "Clear out all build artifacts and rebuild the latest Janus"
