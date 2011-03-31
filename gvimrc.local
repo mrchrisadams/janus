@@ -38,6 +38,10 @@ if has("autocmd") && has("gui_macvim")
 endif
 
 
+" Make sure relative line numbering is set when opening new buffers, reading
+" new files, or creating new views on files, like splits
+" hit `:help au` to see more events to hook into.
+au BufRead,BufNewFile,BufWinEnter * set relativenumber
 
 " Add more sane wrapping of words - takes us closes to 
 " default textmate behaviour
