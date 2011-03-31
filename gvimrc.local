@@ -22,7 +22,7 @@ function! RubyRun()
   silent! %s/\r//
   " Fix extraneous leading blank lines.
   1,2d
-  " Set a filetype so we can define a 'close' mapping with the 'run' mapping.
+  " Set a filetype so wetcan define a 'close' mapping with the 'run' mapping.
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
   set buftype=nofile
@@ -82,4 +82,7 @@ end
 " add Textmate filedrawer style remapping
 " for NERDTREE
 map <C-Tab> :NERDTreeToggle <CR>
+
+" Add quick key for making a scratch window
+map <F8> :ScratchOpen <CR>
 

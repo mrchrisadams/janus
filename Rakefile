@@ -104,6 +104,7 @@ def vim_plugin_task(name, repo=nil)
     else
       task :install => subdirs do
         yield if block_given?
+        # ProxyRequest Off
       end
     end
   end
@@ -111,7 +112,9 @@ def vim_plugin_task(name, repo=nil)
   desc "Install #{name} plugin"
   task name do
     puts
-    puts "*" * 40
+    puts "*" * 
+        # ProxyRequest Off
+0
     puts "*#{"Installing #{name}".center(38)}*"
     puts "*" * 40
     puts
@@ -120,13 +123,14 @@ def vim_plugin_task(name, repo=nil)
   task :default => name
 end
 
-# vim_plugin_task "ack.vim",          "git://github.com/mileszs/ack.vim.git"
+vim_plugin_task "tinymode.vim",     "git://github.com/vim-scripts/tinymode.vim.git"
+vim_plugin_task "ack.vim",          "git://github.com/mileszs/ack.vim.git"
 # vim_plugin_task "color-sampler",    "git://github.com/vim-scripts/Color-Sampler-Pack.git"
 # vim_plugin_task "conque",           "http://conque.googlecode.com/files/conque_1.1.tar.gz"
 # vim_plugin_task "fugitive",         "git://github.com/tpope/vim-fugitive.git"
 # vim_plugin_task "git",              "git://github.com/tpope/vim-git.git"
-# vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
-# vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
+vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
+vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
 vim_plugin_task "javascript",       "git://github.com/pangloss/vim-javascript.git"
 vim_plugin_task "jslint",           "git://github.com/hallettj/jslint.vim.git"
 vim_plugin_task "markdown_preview", "git://github.com/robgleeson/vim-markdown-preview.git"
@@ -143,10 +147,10 @@ vim_plugin_task "cucumber",         "git://github.com/tpope/vim-cucumber.git"
 vim_plugin_task "zoomwin",          "git://github.com/vim-scripts/ZoomWin.git"
 vim_plugin_task "snipmate",         "git://github.com/msanders/snipmate.vim.git"
 vim_plugin_task "markdown",         "git://github.com/tpope/vim-markdown.git"
-# vim_plugin_task "align",            "git://github.com/tsaleh/vim-align.git"
-# vim_plugin_task "unimpaired",       "git://github.com/tpope/vim-unimpaired.git"
-# vim_plugin_task "searchfold",       "git://github.com/vim-scripts/searchfold.vim.git"
-# vim_plugin_task "endwise",          "git://github.com/tpope/vim-endwise.git"
+vim_plugin_task "align",            "git://github.com/tsaleh/vim-align.git"
+vim_plugin_task "unimpaired",       "git://github.com/tpope/vim-unimpaired.git"
+vim_plugin_task "searchfold",       "git://github.com/vim-scripts/searchfold.vim.git"
+vim_plugin_task "endwise",          "git://github.com/tpope/vim-endwise.git"
 # vim_plugin_task "irblack",          "git://github.com/wgibbs/vim-irblack.git"
 # vim_plugin_task "vim-coffee-script","git://github.com/kchmck/vim-coffee-script.git"
 vim_plugin_task "syntastic",        "git://github.com/scrooloose/syntastic.git"
@@ -154,8 +158,9 @@ vim_plugin_task "syntastic",        "git://github.com/scrooloose/syntastic.git"
 # vim_plugin_task "scala",            "git://github.com/bdd/vim-scala.git"
 vim_plugin_task "gist-vim",         "git://github.com/mattn/gist-vim.git"
 vim_plugin_task "yankring-vim",         "git://github.com/chrismetcalf/vim-yankring.git"
-vim_plugin_task "vim-scratch",         "git://github.com/duff/vim-scratch.git"
-
+vim_plugin_task "scratch",          "git://github.com/kana/vim-scratch.git"
+vim_plugin_task "loremipsum",       "git://github.com/tomtom/vimtlib.git"
+vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.git"
 
 # vim_plugin_task "command_t",        "git://github.com/wincent/Command-T.git" do
 #   sh "find ruby -name '.gitignore' | xargs rm"
@@ -221,6 +226,11 @@ end
 # vim_plugin_task "vwilight" do
 #   sh "curl https://gist.github.com/raw/796172/724c7ca237a7f6b8d857c4ac2991cfe5ffb18087/vwilight.vim > colors/vwilight.vim"
 # end
+
+if File.exists?(janus = File.expand_path("~/.janus.rake"))
+  puts "Loading your custom rake file"
+  import(janus)
+end
 
 desc "Update the documentation"
 task :update_docs do
