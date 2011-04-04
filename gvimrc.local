@@ -22,7 +22,7 @@ function! RubyRun()
   silent! %s/\r//
   " Fix extraneous leading blank lines.
   1,2d
-  " Set a filetype so we can define a 'close' mapping with the 'run' mapping.
+  " Set a filetype so wetcan define a 'close' mapping with the 'run' mapping.
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
   set buftype=nofile
@@ -55,7 +55,7 @@ set relativenumber
 
 " Jump to errors before they're caused in a browser, and list them
  let g:syntastic_auto_jump=1
- let g:syntastic_auto_loc_list=1
+ let g:syntastic_auto_loc_list=2
 
 " Strip trailing whitespace (including that in blank lines).
 " http://vim.wikia.com/wiki/Remove_unwanted_spaces
@@ -76,4 +76,17 @@ command! Strip let _s=@/<Bar>:%s/\s\+$//e<Bar>:let @/=_s<Bar>:nohl
 " %P percentage through buffer
 set statusline=%#warningmsg#%{SyntasticStatuslineFlag()}%*%<\ %f\ %m%r%y\ %=%-14.(%l,%c%V%)\ %P\ 
  
+
+" Add command T style behaviour again or Peepopen
+if has("gui_macvim")
+  macmenu &File.New\ Tab key=<nop>
+  map <D-t> <Plug>PeepOpen
+end
+
+" add Textmate filedrawer style remapping
+" for NERDTREE
+map <C-Tab> :NERDTreeToggle <CR>
+
+" Add quick key for making a scratch window
+map <F8> :ScratchOpen <CR>
 
