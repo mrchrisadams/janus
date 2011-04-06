@@ -157,7 +157,7 @@ vim_plugin_task "gist-vim",         "git://github.com/mattn/gist-vim.git"
 vim_plugin_task "yankring-vim",     "git://github.com/chrismetcalf/vim-yankring.git"
 vim_plugin_task "scratch",          "git://github.com/kana/vim-scratch.git"
 vim_plugin_task "loremipsum",       "git://github.com/tomtom/vimtlib.git"
-vim_plugin_task "confluencewiki",       "git://github.com/vim-scripts/confluencewiki.vim.git"
+vim_plugin_task "confluencewiki",   "git://github.com/vim-scripts/confluencewiki.vim.git"
 vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.git"
 
 vim_plugin_task "IR_white" do
