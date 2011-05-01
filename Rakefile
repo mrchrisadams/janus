@@ -136,6 +136,7 @@ vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
 vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
 vim_plugin_task "javascript",       "git://github.com/pangloss/vim-javascript.git"
 vim_plugin_task "jslint",           "git://github.com/hallettj/jslint.vim.git"
+vim_plugin_task "hammer",           "git://github.com/robgleeson/hammer.vim.git"
 vim_plugin_task "nerdtree",         "git://github.com/wycats/nerdtree.git"
 vim_plugin_task "nerdcommenter",    "git://github.com/ddollar/nerdcommenter.git"
 vim_plugin_task "surround",         "git://github.com/tpope/vim-surround.git"
@@ -166,9 +167,6 @@ vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.
 vim_plugin_task "IR_white" do
   sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > colors/IR_White.vim"
 end
-#vim_plugin_task "hammer",           "git://github.com/robgleeson/hammer.vim.git" do
-#  sh "gem install github-markup redcarpet"
-#end
 
 vim_plugin_task "janus_themes" do
   # custom version of railscasts theme
