@@ -40,11 +40,17 @@ if has("autocmd") && has("gui_macvim")
   au FileType ruby-runner map <buffer> q ZZ
 endif
 
+" Create markdown syntax shortcut
+map <D-M> :set ft=markdown<CR>
+imap <D-M> :set ft=markdown<CR>
 
 " Make sure relative line numbering is set when opening new buffers, reading
 " new files, or creating new views on files, like splits
 " hit `:help au` to see more events to hook into.
 au BufRead,BufNewFile,BufWinEnter * set relativenumber
+"
+" Set Drupal files to default to PHP colouring
+au BufRead,BufNewFile {*.test,*.module,*.inc,*.install,*.info}    set ft=php
 
 " Add more sane wrapping of words - takes us closes to 
 " default textmate behaviour
