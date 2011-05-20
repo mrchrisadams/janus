@@ -6,6 +6,9 @@ set guifont=Inconsolata:h14       "add my preferred font
 " default textmate behaviour
 command! -nargs=* Wrap set wrap linebreak nolist
 
+" Clear the search hi-lighting
+noremap <F4> :let @/ = ""<CR>
+
 " Add more linespace, to make lines more readable, like Textmate is by default
 set linespace=1 
 
