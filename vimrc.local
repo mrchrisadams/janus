@@ -1,0 +1,9 @@
+
+" override the Janus function, to get rid of aggressive text wrapping when
+" working with email, or plain text
+"
+function s:setupWrapping()
+  set wrap
+  set wm=2
+  " set textwidth=72
+endfunction
