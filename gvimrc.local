@@ -48,7 +48,10 @@ imap <D-M> :set ft=markdown<CR>
 " new files, or creating new views on files, like splits
 " hit `:help au` to see more events to hook into.
 au BufRead,BufNewFile,BufWinEnter * set relativenumber
-"
+
+" Set all files to use sane wrapping by default
+au BufRead,BufNewFile,BufWinEnter * Wrap<CR>
+
 " Set Drupal files to default to PHP colouring
 au BufRead,BufNewFile {*.test,*.module,*.inc,*.install,*.info}    set ft=php
 
