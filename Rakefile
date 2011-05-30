@@ -164,9 +164,6 @@ vim_plugin_task "loremipsum",       "git://github.com/tomtom/vimtlib.git"
 vim_plugin_task "confluencewiki",   "git://github.com/vim-scripts/confluencewiki.vim.git"
 vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.git"
 
-vim_plugin_task "IR_white" do
-  sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > colors/IR_White.vim"
-end
 
 vim_plugin_task "janus_themes" do
   # custom version of railscasts theme
