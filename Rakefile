@@ -161,9 +161,9 @@ vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.
 vim_plugin_task "IR_white" do
   sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > colors/IR_White.vim"
 
-vim_plugin_task "hammer",           "git://github.com/robgleeson/hammer.vim.git" do
-  sh "gem install github-markup redcarpet"
-end
+#vim_plugin_task "hammer",           "git://github.com/robgleeson/hammer.vim.git" do
+#  sh "gem install github-markup redcarpet"
+#end
 
 vim_plugin_task "janus_themes" do
   # custom version of railscasts theme
@@ -194,20 +194,22 @@ vim_plugin_task "janus_themes" do
 end
 
 vim_plugin_task "molokai" do
-  sh "curl https://github.com/mrtazz/molokai.vim/raw/master/colors/molokai.vim > colors/molokai.vim"
+  sh "curl https://raw.github.com/mrtazz/molokai.vim/master/colors/molokai.vim > colors/molokai.vim"
 end
- vim_plugin_task "mustache" do
-   sh "curl https://github.com/defunkt/mustache/raw/master/contrib/mustache.vim > syntax/mustache.vim"
-   File.open(File.expand_path('../ftdetect/mustache.vim', __FILE__), 'w') do |file|
-     file << "au BufNewFile,BufRead *.mustache        setf mustache"
-   end
- end
- vim_plugin_task "arduino","git://github.com/vim-scripts/Arduino-syntax-file.git" do
-   File.open(File.expand_path('../ftdetect/arduino.vim', __FILE__), 'w') do |file|
-     file << "au BufNewFile,BufRead *.pde             setf arduino"
-   end
- end
-
+vim_plugin_task "mustache" do
+  sh "curl https://raw.github.com/defunkt/mustache/master/contrib/mustache.vim > syntax/mustache.vim"
+  File.open(File.expand_path('../ftdetect/mustache.vim', __FILE__), 'w') do |file|
+    file << "au BufNewFile,BufRead *.mustache        setf mustache"
+  end
+end
+vim_plugin_task "arduino","git://github.com/vim-scripts/Arduino-syntax-file.git" do
+  File.open(File.expand_path('../ftdetect/arduino.vim', __FILE__), 'w') do |file|
+    file << "au BufNewFile,BufRead *.pde             setf arduino"
+  end
+end
+vim_plugin_task "vwilight" do
+  sh "curl https://raw.github.com/gist/796172/724c7ca237a7f6b8d857c4ac2991cfe5ffb18087 > colors/vwilight.vim"
+end
 if File.exists?(janus = File.expand_path("~/.janus.rake"))
   puts "Loading your custom rake file"
   import(janus)
