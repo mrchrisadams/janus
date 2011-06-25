@@ -105,10 +105,5 @@ map <C-Tab> :NERDTreeToggle <CR>
 " Add quick key for making a scratch window
 map <F8> :ScratchOpen <CR>
 
-if has('gui_running')
-    set background=light
-else
-    set background=dark
-endif
 colorscheme solarized 
 
