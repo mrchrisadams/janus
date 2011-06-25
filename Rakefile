@@ -141,6 +141,7 @@ vim_plugin_task "solarized",        "git://github.com/altercation/vim-colors-sol
 vim_plugin_task "supertab",         "git://github.com/ervandew/supertab.git"
 vim_plugin_task "cucumber",         "git://github.com/tpope/vim-cucumber.git"
 vim_plugin_task "textile",          "git://github.com/timcharper/textile.vim.git"
+vim_plugin_task "fugitive",         "git://github.com/tpope/vim-fugitive.git"
 # vim_plugin_task "rails",            "git://github.com/tpope/vim-rails.git"
 # vim_plugin_task "rspec",            "git://github.com/taq/vim-rspec.git"
 vim_plugin_task "zoomwin",          "git://github.com/vim-scripts/ZoomWin.git"
@@ -160,7 +161,7 @@ vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.
 
 vim_plugin_task "IR_white" do
   sh "curl https://github.com/squil/vim_colors/raw/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim > colors/IR_White.vim"
-
+end
 #vim_plugin_task "hammer",           "git://github.com/robgleeson/hammer.vim.git" do
 #  sh "gem install github-markup redcarpet"
 #end
