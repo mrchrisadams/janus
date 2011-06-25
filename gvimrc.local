@@ -95,6 +95,9 @@ if has("gui_macvim")
   map <D-t> <Plug>PeepOpen
 end
 
+" Open a new tab. Useful with the Peepopen command
+map <D-N> :tabnew <CR>
+
 " add Textmate filedrawer style remapping
 " for NERDTREE
 map <C-Tab> :NERDTreeToggle <CR>
