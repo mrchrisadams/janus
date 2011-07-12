@@ -164,35 +164,9 @@ vim_plugin_task "loremipsum",       "git://github.com/tomtom/vimtlib.git"
 vim_plugin_task "confluencewiki",   "git://github.com/vim-scripts/confluencewiki.vim.git"
 vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.git"
 
-
-vim_plugin_task "janus_themes" do
-  # custom version of railscasts theme
-  File.open(File.expand_path("../colors/railscasts+.vim", __FILE__), "w") do |file|
-    file.puts <<-VIM.gsub(/^ +/, "").gsub("<SP>", " ")
-      runtime colors/railscasts.vim
-      let g:colors_name = "railscasts+"
-
-      set fillchars=vert:\\<SP>
-      set fillchars=stl:\\<SP>
-      set fillchars=stlnc:\\<SP>
-      hi  StatusLine guibg=#cccccc guifg=#000000
-      hi  VertSplit  guibg=#dddddd
-    VIM
-  end
-
-  # custom version of jellybeans theme
-  File.open(File.expand_path("../colors/jellybeans+.vim", __FILE__), "w") do |file|
-    file.puts <<-VIM.gsub(/^      /, "")
-      runtime colors/jellybeans.vim
-      let g:colors_name = "jellybeans+"
-
-      hi  VertSplit    guibg=#888888
-      hi  StatusLine   guibg=#cccccc guifg=#000000
-      hi  StatusLineNC guibg=#888888 guifg=#000000
-    VIM
-  end
+vim_plugin_task "IR_white" do
+  sh "curl https://raw.github.com/squil/vim_colors/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim  > colors/IR_White.vim"
 end
-
 vim_plugin_task "molokai" do
   sh "curl https://raw.github.com/mrtazz/molokai.vim/master/colors/molokai.vim > colors/molokai.vim"
 end
