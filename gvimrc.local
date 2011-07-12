@@ -53,7 +53,7 @@ au BufRead,BufNewFile,BufWinEnter * set relativenumber
 au BufRead,BufNewFile,BufWinEnter * Wrap<CR>
 
 " Set Drupal files to default to PHP colouring
-au BufRead,BufNewFile {*.test,*.module,*.inc,*.install,*.info}    set ft=php
+au BufRead,BufNewFile {*.test,*.module,*.inc,*.install,*.info,*.profile}    set ft=php
 
 " Add more sane wrapping of words - takes us closes to 
 " default textmate behaviour
@@ -105,5 +105,12 @@ map <C-Tab> :NERDTreeToggle <CR>
 " Add quick key for making a scratch window
 map <F8> :ScratchOpen <CR>
 
+" Quick hot key to view errors on a page
+map <D-E> :Errors <CR>
+map <D-©> :gStatus <CR> 
+
 colorscheme solarized 
 
+" Switch select mode to visual mode for quick manipulation
+" well, once you know how to make it work...
+" vmap <D-√> C-G
