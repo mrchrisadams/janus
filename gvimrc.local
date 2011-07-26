@@ -25,7 +25,7 @@ function! RubyRun()
   silent! %s/\r//
   " Fix extraneous leading blank lines.
   1,2d
-  " Set a filetype so wetcan define a 'close' mapping with the 'run' mapping.
+  " Set a filetype so we can define a 'close' mapping with the 'run' mapping.
   set ft=ruby-runner
   " Make it a scratch (temporary) buffer.
   set buftype=nofile
@@ -114,3 +114,9 @@ colorscheme solarized
 " Switch select mode to visual mode for quick manipulation
 " well, once you know how to make it work...
 " vmap <D-√> C-G
+"
+" Set a global variables, to make sure that gists when created from inside
+" vim are by default private
+let g:gist_private = 1
+
+
