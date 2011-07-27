@@ -107,10 +107,10 @@ map <F8> :ScratchOpen <CR>
 
 " Quick hot key to view errors on a page
 map <D-E> :Errors <CR>
-map <D-©> :gStatus <CR> 
+" Hot key for bringing up git commit view
+map <D-©> :Gstatus <CR>
 
 colorscheme solarized 
-
 " Switch select mode to visual mode for quick manipulation
 " well, once you know how to make it work...
 " vmap <D-√> C-G
