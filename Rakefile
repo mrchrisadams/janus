@@ -18,9 +18,6 @@ def vim_plugin_task(name, repo=nil)
         if repo =~ /git$/
           sh "git clone #{repo} #{dir}"
 
-        elsif repo =~ %r{(^hg://)(.+)}
-          sh "hg clone https://#{$2} #{dir}"
-
         elsif repo =~ /download_script/
           if filename = `curl --silent --head #{repo} | grep attachment`[/filename=(.+)/,1]
             filename.strip!
@@ -107,7 +104,6 @@ def vim_plugin_task(name, repo=nil)
     else
       task :install => subdirs do
         yield if block_given?
-        # ProxyRequest Off
       end
     end
   end
@@ -115,9 +111,7 @@ def vim_plugin_task(name, repo=nil)
   desc "Install #{name} plugin"
   task name do
     puts
-    puts "*" * 
-        # ProxyRequest Off
-0
+    puts "*" * 40
     puts "*#{"Installing #{name}".center(38)}*"
     puts "*" * 40
     puts
@@ -130,24 +124,25 @@ def skip_vim_plugin(name)
   Rake::Task[:default].prerequisites.delete(name)
 end
 
-vim_plugin_task "tinymode.vim",     "git://github.com/vim-scripts/tinymode.vim.git"
 vim_plugin_task "ack.vim",          "git://github.com/mileszs/ack.vim.git"
+vim_plugin_task "color-sampler",    "git://github.com/vim-scripts/Color-Sampler-Pack.git"
+vim_plugin_task "conque",           "http://conque.googlecode.com/files/conque_1.1.tar.gz"
+vim_plugin_task "fugitive",         "git://github.com/tpope/vim-fugitive.git"
+vim_plugin_task "git",              "git://github.com/tpope/vim-git.git"
 vim_plugin_task "haml",             "git://github.com/tpope/vim-haml.git"
 vim_plugin_task "indent_object",    "git://github.com/michaeljsmith/vim-indent-object.git"
 vim_plugin_task "javascript",       "git://github.com/pangloss/vim-javascript.git"
-vim_plugin_task "jslint",           "git://github.com/hallettj/jslint.vim.git"
-vim_plugin_task "markdown_preview", "git://github.com/robgleeson/vim-markdown-preview.git"
 vim_plugin_task "nerdtree",         "git://github.com/wycats/nerdtree.git"
 vim_plugin_task "nerdcommenter",    "git://github.com/ddollar/nerdcommenter.git"
 vim_plugin_task "surround",         "git://github.com/tpope/vim-surround.git"
 vim_plugin_task "taglist",          "git://github.com/vim-scripts/taglist.vim.git"
+vim_plugin_task "vividchalk",       "git://github.com/tpope/vim-vividchalk.git"
 vim_plugin_task "solarized",        "git://github.com/altercation/vim-colors-solarized.git"
 vim_plugin_task "supertab",         "git://github.com/ervandew/supertab.git"
 vim_plugin_task "cucumber",         "git://github.com/tpope/vim-cucumber.git"
 vim_plugin_task "textile",          "git://github.com/timcharper/textile.vim.git"
-vim_plugin_task "fugitive",         "git://github.com/tpope/vim-fugitive.git"
-# vim_plugin_task "rails",            "git://github.com/tpope/vim-rails.git"
-# vim_plugin_task "rspec",            "git://github.com/taq/vim-rspec.git"
+vim_plugin_task "rails",            "git://github.com/tpope/vim-rails.git"
+vim_plugin_task "rspec",            "git://github.com/taq/vim-rspec.git"
 vim_plugin_task "zoomwin",          "git://github.com/vim-scripts/ZoomWin.git"
 vim_plugin_task "snipmate",         "git://github.com/msanders/snipmate.vim.git"
 vim_plugin_task "markdown",         "git://github.com/tpope/vim-markdown.git"
@@ -155,18 +150,58 @@ vim_plugin_task "align",            "git://github.com/tsaleh/vim-align.git"
 vim_plugin_task "unimpaired",       "git://github.com/tpope/vim-unimpaired.git"
 vim_plugin_task "searchfold",       "git://github.com/vim-scripts/searchfold.vim.git"
 vim_plugin_task "endwise",          "git://github.com/tpope/vim-endwise.git"
-# vim_plugin_task "vim-coffee-script","git://github.com/kchmck/vim-coffee-script.git"
+vim_plugin_task "irblack",          "git://github.com/wgibbs/vim-irblack.git"
+vim_plugin_task "vim-coffee-script","git://github.com/kchmck/vim-coffee-script.git"
 vim_plugin_task "syntastic",        "git://github.com/scrooloose/syntastic.git"
+vim_plugin_task "puppet",           "git://github.com/ajf/puppet-vim.git"
+vim_plugin_task "scala",            "git://github.com/bdd/vim-scala.git"
 vim_plugin_task "gist-vim",         "git://github.com/mattn/gist-vim.git"
-vim_plugin_task "yankring-vim",     "git://github.com/chrismetcalf/vim-yankring.git"
-vim_plugin_task "scratch",          "git://github.com/kana/vim-scratch.git"
-vim_plugin_task "loremipsum",       "git://github.com/tomtom/vimtlib.git"
-vim_plugin_task "confluencewiki",   "git://github.com/vim-scripts/confluencewiki.vim.git"
-vim_plugin_task "peepopen",         "git://github.com/mrchrisadams/vim-peepopen.git"
 
-vim_plugin_task "IR_white" do
-  sh "curl https://raw.github.com/squil/vim_colors/04d696a1d16a934c13bd578bc0e5dab5afb7e903/IR_White.vim  > colors/IR_White.vim"
+#vim_plugin_task "hammer",           "git://github.com/robgleeson/hammer.vim.git" do
+#  sh "gem install github-markup redcarpet"
+#end
+
+vim_plugin_task "command_t",        "http://s3.wincent.com/command-t/releases/command-t-1.2.1.vba" do
+  Dir.chdir "ruby/command-t" do
+    if File.exists?("/usr/bin/ruby1.8") # prefer 1.8 on *.deb systems
+      sh "/usr/bin/ruby1.8 extconf.rb"
+    elsif File.exists?("/usr/bin/ruby") # prefer system rubies
+      sh "/usr/bin/ruby extconf.rb"
+    elsif `rvm > /dev/null 2>&1` && $?.exitstatus == 0
+      sh "rvm system ruby extconf.rb"
+    end
+    sh "make clean && make"
+  end
 end
+
+vim_plugin_task "janus_themes" do
+  # custom version of railscasts theme
+  File.open(File.expand_path("../colors/railscasts+.vim", __FILE__), "w") do |file|
+    file.puts <<-VIM.gsub(/^ +/, "").gsub("<SP>", " ")
+      runtime colors/railscasts.vim
+      let g:colors_name = "railscasts+"
+
+      set fillchars=vert:\\<SP>
+      set fillchars=stl:\\<SP>
+      set fillchars=stlnc:\\<SP>
+      hi  StatusLine guibg=#cccccc guifg=#000000
+      hi  VertSplit  guibg=#dddddd
+    VIM
+  end
+
+  # custom version of jellybeans theme
+  File.open(File.expand_path("../colors/jellybeans+.vim", __FILE__), "w") do |file|
+    file.puts <<-VIM.gsub(/^      /, "")
+      runtime colors/jellybeans.vim
+      let g:colors_name = "jellybeans+"
+
+      hi  VertSplit    guibg=#888888
+      hi  StatusLine   guibg=#cccccc guifg=#000000
+      hi  StatusLineNC guibg=#888888 guifg=#000000
+    VIM
+  end
+end
+
 vim_plugin_task "molokai" do
   sh "curl https://raw.github.com/mrtazz/molokai.vim/master/colors/molokai.vim > colors/molokai.vim"
 end
@@ -184,6 +219,7 @@ end
 vim_plugin_task "vwilight" do
   sh "curl https://raw.github.com/gist/796172/724c7ca237a7f6b8d857c4ac2991cfe5ffb18087 > colors/vwilight.vim"
 end
+
 if File.exists?(janus = File.expand_path("~/.janus.rake"))
   puts "Loading your custom rake file"
   import(janus)
@@ -200,7 +236,7 @@ task :link_vimrc do
   %w[ vimrc gvimrc ].each do |file|
     dest = File.expand_path("~/.#{file}")
     unless File.exist?(dest)
-      sh "ln -s " + File.expand_path("../#{file}", __FILE__) + " " + dest
+      ln_s(File.expand_path("../#{file}", __FILE__), dest)
     end
   end
 end
