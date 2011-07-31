@@ -241,6 +241,14 @@ task :link_vimrc do
   end
 end
 
+desc "link rakefile.local to ~/.janus.rake" 
+task :link_local_rake do
+  dest = File.expand_path("~/.janus.rake")
+  unless File.exist?(dest)
+    ln_s(File.expand_path("../rakefile.local", __FILE__), dest)
+  end
+end
+
 task :clean do
   system "git clean -dfx"
 end
@@ -252,6 +260,7 @@ end
 
 task :default => [
   :update_docs,
+  :link_local_rake,
   :link_vimrc
 ]
 
